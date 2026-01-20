@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_Product_Count__c</fullName>
+    <description>The total number of all products in the warehouse.</description>
+    <label>Total Product Count</label>
+    <summarizedField>Inventory__c.Quantity__c</summarizedField>
+    <summaryForeignKey>Inventory__c.Warehouse__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>
