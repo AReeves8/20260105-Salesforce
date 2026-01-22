@@ -1,0 +1,64 @@
+
+// SELECT list_of_columns FROM object_name WHERE some_condition ORDER BY/GROUP BY/LIMIT
+SELECT Id, Name, Industry FROM Account
+
+SELECT Id, Name, Location__c, Max_Capacity__c 
+FROM Warehouse__c 
+WHERE Location__c = 'Texas'
+
+// AND, OR, NOT keywords
+// Comparison Operators >, <, >=, <=, =, !=
+SELECT Id, Name, Location__c, Max_Capacity__c 
+FROM Warehouse__c 
+WHERE Location__c = 'Texas' OR Max_Capacity__c > 100000
+
+// LIKE for string matching. % - matches 0+ characters. _ - matches exactly one character
+SELECT Name, Email, Phone 
+FROM Contact
+WHERE Email LIKE '%@edge.com'
+
+SELECT Name, Email, Phone 
+FROM Contact
+WHERE Name LIKE 'T_m%' // matches Tim or Tom with any last name
+
+
+// LIMIT - gives first records found up to the specified limit - useful for staying under governor limits
+SELECT Id, Name, Industry 
+FROM Account
+LIMIT 5
+
+
+// OFFSET - skips a specified number of records and starts retrieving the ones after
+SELECT Id, Name, Industry 
+FROM Account
+LIMIT 5 OFFSET 5        // useful for doing pagination
+
+
+// DATE LITERALS
+// remember that Date is a primitive data type and NOT A STRING
+
+// Dates are in YYYY-MM-DD format
+SELECT Name, Email, Phone, Birthdate
+FROM Contact
+WHERE Birthdate > 1950-01-01  
+
+SELECT Id, Name, CloseDate
+FROM Opportunity
+WHERE  CloseDate = LAST_N_DAYS:365  
+
+// more date literals: https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql_select_dateformats.htm
+
+
+// AGGREGATE FUNCTIONS
+SELECT AVG(Max_Capacity__c)     // aggreagtes ALL records
+FROM Warehouse__c
+
+SELECT Warehouse__c, SUM(Quantity__c)   // aggreagates records PER GROUPING
+FROM Inventory__c
+GROUP BY Warehouse__c
+
+// Finds the number of accounts per industry but only shows industries with 3+ account records
+SELECT Industry, COUNT(Id)
+FROM Account
+GROUP BY Industry
+HAVING COUNT(Id) >= 3

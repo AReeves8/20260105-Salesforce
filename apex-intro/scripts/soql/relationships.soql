@@ -1,0 +1,29 @@
+// RELATIONSHIP QUERIES
+
+/**
+ * Two types:
+ *      Parent -> Child
+ *      Child -> Parent
+ * 
+ *      limit: 5 levels either up or down
+ * 
+ * 
+ *      There are also differences for Standard and Custom Relationships
+ */
+
+
+// STANDARD RELATIONSHIP CHILD TO PARENT - dot notation 
+SELECT Id, Name, Account.Id, Account.Name FROM Contact
+
+
+// CUSTOM RELATIONSHIP CHILD TO PARENT - dot notation with __r
+SELECT Id, Name, Warehouse__r.Id, Warehouse__r.Name FROM Inventory__c   // __r for TRAVERSING THE RELATIONSHIP
+SELECT Id, Name, Warehouse__c FROM Inventory__c     // here we are accessing the ID only, so no need for __r
+
+
+// STANDARD RELATIONSHIP PARENT TO CHILD - sub query with PLURAL FORM of child object
+SELECT Id, Name, (SELECT Id, Name FROM Contacts) FROM Account
+
+
+// CUSTOM RELATIONSHIP PARENT TO CHILD - sub query with PLURAL FORM of child object and __r
+SELECT Id, Name, (SELECT Name, Quantity__c FROM Inventories__r) FROM Warehouse__c
